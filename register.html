@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+   	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>My Login Page &mdash; Car Parking System</title>
+	<link rel="stylesheet" type="text/css" href="b.css">
+	<link rel="stylesheet" type="text/css" href="my-login.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" >
+
+ <style type="text/css">
+.logo{
+
+       padding: 0.01em 14px;
+          font-family: fontawesome;
+    text-decoration: none;
+    line-height: 1;
+
+    font-size: 36px;
+    letter-spacing: 3px;
+    color: #555555;
+    display: block;
+
+    top: 14px;
+
+
+}
+   .logo .green{
+
+        color: #4CAF50;
+    }
+.sub-logo{
+    width: 100%;
+    font-size: 10px;
+    text-align: center;
+    float: right!important;
+    letter-spacing: 4px;
+    display: block;
+    }
+</style>
+</head>
+<body class="my-login-page">
+	<section class="h-100">
+		<div class="container h-100" style="display: flex;justify-content: space-around; ">
+			<div class="row justify-content-md-center h-100">
+				<div class="card-wrapper">
+
+
+                     <a class="logo mt-4 text-center">Online  <span class="green">Parking Reservation </span>System</a>
+
+  <div class="sub-logo mb-4" style="font-family:'Segoe UI',Arial,sans-serif">Super Market</div>
+
+					<div class="card fat">
+						<div class="card-body">
+							<h4 class="card-title">Register</h4>
+							<form name="myform">
+
+								<div class="form-group row" >
+								    <div class="col-xs-12 col-sm-6 col-md-6" >
+									<label for="First">First Name</label>
+									<input id="First" type="text" class="form-control input-lg" name="First" maxlength="20" required autofocus></div>
+
+                                        <div class="col-xs-12 col-sm-6 col-md-6" ><label for="Last">Last Name</label>
+									<input id="Last" type="text" class="form-control input-lg" maxlength="20" name="Last" required></div>
+								</div>
+                                <div class="form-group">
+									<label for="NIC">NIC</label>
+									<input id="NIC" type="text" class="form-control" maxlength="10" name="NIC" required>
+								</div>
+                                 <div class=" row" >
+								<div class="form-group col-xs-12 col-sm-6 col-md-6">
+									<label for="password">Password</label>
+									<input id="password" type="password" class="form-control" maxlength="10" name="Password" required data-eye>
+								</div>
+                                <div class="form-group col-xs-12 col-sm-6 col-md-6">
+									<label for="Confirm Password">Confirm Password</label>
+									<input id="confirm_password" type="password" class="form-control" name="CPassword" required data-eye >
+								</div>
+
+                                 </div>
+
+								<div class="form-group">
+									<label for="email">E-Mail Address</label>
+									<input id="email" type="email" class="form-control" maxlength="40" name="Email" required>
+								</div>
+                                   <div class="form-group">
+									<label for="Cont_No">Contact No</label>
+									<input id="Cont_No" type="number" class="form-control" maxlength="10" name="Cont_No" required>
+								</div>
+                                 <div class="form-group">
+									<label for="Address">Address</label>
+									<textarea id="Address" type="text" class="form-control" rows="2" name="Address" ></textarea>
+								</div>
+                                <div  class="form-group">
+									<label for="">Vehical Numbers</label>
+                                   <div id="V_No">
+                                 	<input id="" type="text" class="form-control" name="V_No[]" > </div>
+                                         <button type="button" onclick="add()" class="btn btn-success btn-sm"
+    style="float: right;padding-bottom:2px; padding-top:0px;font-size: medium;position:relative;
+    margin-right: 18px;margin-bottom: 20px;margin-top: 10px;">Add </button>
+
+
+											</div>
+								<div class="form-group">
+									<label>
+										<input type="checkbox" name="agree" value="1" required="required"> I agree to the Terms and Conditions
+									</label>
+								</div>
+
+								<div class="form-group no-margin">
+
+									<button type="submit" name="regsubmit" class="btn btn-primary btn-block" id="reg"
+                                     >
+										Register
+									</button>
+
+
+
+								</div>
+								<div class="margin-top20 text-center">
+									Already have an account? <a href="index.html">Login</a>
+								</div>
+							</form>
+						</div>
+					</div>
+                   <!-- <button class="btn btn-primary btn-block" id="reg" onclick="loading()"      >
+										Register
+									</button>-->
+					<div class="footer">
+						Parking Reservation System
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+</body>
+<script src="jq.js"></script>
+	<script src="b.js"></script>
+	<script src="my-login.js"></script>
+
+<script>
+
+ $(function() {
+
+    /*  "return validation()" */
+
+
+  $('form').on('submit', function (e) {
+
+          e.preventDefault();
+     $b= validation();
+    if ($b){
+
+   $.ajax({
+
+   dataType: 'json',
+    cache: false,
+  type:'POST',
+  beforeSend: function(){
+    loading(true);
+  },
+
+  url:'Add_Registration.php',
+  data:  $('form').serialize(),
+
+   success:function(data){
+
+
+
+ if(data.errno==1062){
+
+
+      alert("Sorry ! Your Email or NIC were already used.");
+
+
+  }else if(data.success=="Registration successfully"){
+      alert("Registration successfully!");
+      window.location.href = "index.html";
+   exit();
+  }else{
+      alert("Sorry ! Something Wrong ! ." + data.errno);
+  }
+
+
+  } , error: function(xhr,stat , error){
+       alert("An error occured: " + xhr.status + " " + error);
+
+
+    }
+
+
+
+  ,
+
+  complete: function(){
+
+    loading(false);
+  }
+});
+
+}
+});
+
+});
+
+
+ function loading(b){
+
+   if (b==true){
+    $("#reg").prop('disabled', true);
+    $('.form-control').prop('disabled', true);
+ $("#reg").html("<i class='fa fa-circle-o-notch fa-spin'></i>Sending Data..");
+
+/* setTimeout(function() {
+    $("#reg").prop('disabled', false);
+    $('.form-control').prop('disabled', false);
+ $("#reg").html("Register");
+    }, 15000);*/
+
+
+   }else{
+    $("#reg").prop('disabled', false);
+    $('.form-control').prop('disabled', false);
+    $("#reg").html("Register");
+   }
+ }
+
+
+
+function add(){
+var ob=document.createElement("input");
+
+ob.setAttribute("type", "text");
+ob.setAttribute("class","form-control")
+ob.setAttribute("name","V_No[]")
+var x=document.getElementById("V_No");
+
+x.appendChild(ob) ;
+
+
+}
+function validation(){
+
+   var x=  document.forms["myform"]["Password"].value  ;
+    var y =  document.forms["myform"]["CPassword"].value ;
+
+   if(x != y) {
+       alert("Your Passsword is not matched");
+       return false;
+   } else{
+       return true;
+   }
+}
+</script>
+
+</html>
