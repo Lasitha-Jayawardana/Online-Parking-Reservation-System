@@ -20,3 +20,7 @@ Web Based Parking Reservation System.
 			
 ## Tips
 You can test the system using "Demo.php" as a parking sensor. If you set up a cron job, the customer can receive the email when the reservation has expired.
+
+#### Current Host
+Link : https://lasithaj.000webhostapp.com/
+	
